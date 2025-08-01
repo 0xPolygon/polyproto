@@ -50,5 +50,5 @@ grpc: protoc-all
 		bor/bor.proto
 	PATH="$(GOBIN):$(PATH)" protoc --proto_path=. --go_out=. --go-grpc_out=. -I=$(PROTOC_INCLUDE) \
 		common/common.proto
-	cp github.com/maticnetwork/polyproto/common/* ./common/ 
+	cp github.com/0xPolygon/polyproto/common/* ./common/ 
 	rm -rf github.com

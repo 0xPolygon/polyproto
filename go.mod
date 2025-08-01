@@ -1,4 +1,4 @@
-module github.com/maticnetwork/polyproto
+module github.com/0xPolygon/polyproto
 
 go 1.18
 
