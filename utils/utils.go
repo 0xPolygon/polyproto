@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/binary"
 
-	"github.com/maticnetwork/polyproto/common"
+	"github.com/0xPolygon/polyproto/common"
 )
 
 func ConvertH160toAddress(h160 *common.H160) [20]byte {

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package common;
 
-option go_package = "github.com/maticnetwork/polyproto/common";
+option go_package = "github.com/0xPolygon/polyproto/common";
 
 message H128 {
     uint64 Hi = 1;
