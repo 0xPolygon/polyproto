@@ -29,6 +29,10 @@ type BorApiClient interface {
 	TransactionReceipt(ctx context.Context, in *ReceiptRequest, opts ...grpc.CallOption) (*ReceiptResponse, error)
 	BorBlockReceipt(ctx context.Context, in *ReceiptRequest, opts ...grpc.CallOption) (*ReceiptResponse, error)
 	GetStartBlockHeimdallSpanID(ctx context.Context, in *GetStartBlockHeimdallSpanIDRequest, opts ...grpc.CallOption) (*GetStartBlockHeimdallSpanIDResponse, error)
+	GetAuthor(ctx context.Context, in *GetAuthorRequest, opts ...grpc.CallOption) (*GetAuthorResponse, error)
+	GetTdByHash(ctx context.Context, in *GetTdByHashRequest, opts ...grpc.CallOption) (*GetTdResponse, error)
+	GetTdByNumber(ctx context.Context, in *GetTdByNumberRequest, opts ...grpc.CallOption) (*GetTdResponse, error)
+	GetBlockInfoInBatch(ctx context.Context, in *GetBlockInfoInBatchRequest, opts ...grpc.CallOption) (*GetBlockInfoInBatchResponse, error)
 }
 
 type borApiClient struct {
@@ -102,6 +106,42 @@ func (c *borApiClient) GetStartBlockHeimdallSpanID(ctx context.Context, in *GetS
 	return out, nil
 }
 
+func (c *borApiClient) GetAuthor(ctx context.Context, in *GetAuthorRequest, opts ...grpc.CallOption) (*GetAuthorResponse, error) {
+	out := new(GetAuthorResponse)
+	err := c.cc.Invoke(ctx, "/bor.BorApi/GetAuthor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borApiClient) GetTdByHash(ctx context.Context, in *GetTdByHashRequest, opts ...grpc.CallOption) (*GetTdResponse, error) {
+	out := new(GetTdResponse)
+	err := c.cc.Invoke(ctx, "/bor.BorApi/GetTdByHash", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borApiClient) GetTdByNumber(ctx context.Context, in *GetTdByNumberRequest, opts ...grpc.CallOption) (*GetTdResponse, error) {
+	out := new(GetTdResponse)
+	err := c.cc.Invoke(ctx, "/bor.BorApi/GetTdByNumber", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borApiClient) GetBlockInfoInBatch(ctx context.Context, in *GetBlockInfoInBatchRequest, opts ...grpc.CallOption) (*GetBlockInfoInBatchResponse, error) {
+	out := new(GetBlockInfoInBatchResponse)
+	err := c.cc.Invoke(ctx, "/bor.BorApi/GetBlockInfoInBatch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BorApiServer is the server API for BorApi service.
 // All implementations must embed UnimplementedBorApiServer
 // for forward compatibility
@@ -113,6 +153,10 @@ type BorApiServer interface {
 	TransactionReceipt(context.Context, *ReceiptRequest) (*ReceiptResponse, error)
 	BorBlockReceipt(context.Context, *ReceiptRequest) (*ReceiptResponse, error)
 	GetStartBlockHeimdallSpanID(context.Context, *GetStartBlockHeimdallSpanIDRequest) (*GetStartBlockHeimdallSpanIDResponse, error)
+	GetAuthor(context.Context, *GetAuthorRequest) (*GetAuthorResponse, error)
+	GetTdByHash(context.Context, *GetTdByHashRequest) (*GetTdResponse, error)
+	GetTdByNumber(context.Context, *GetTdByNumberRequest) (*GetTdResponse, error)
+	GetBlockInfoInBatch(context.Context, *GetBlockInfoInBatchRequest) (*GetBlockInfoInBatchResponse, error)
 	mustEmbedUnimplementedBorApiServer()
 }
 
@@ -140,6 +184,18 @@ func (UnimplementedBorApiServer) BorBlockReceipt(context.Context, *ReceiptReques
 }
 func (UnimplementedBorApiServer) GetStartBlockHeimdallSpanID(context.Context, *GetStartBlockHeimdallSpanIDRequest) (*GetStartBlockHeimdallSpanIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStartBlockHeimdallSpanID not implemented")
+}
+func (UnimplementedBorApiServer) GetAuthor(context.Context, *GetAuthorRequest) (*GetAuthorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthor not implemented")
+}
+func (UnimplementedBorApiServer) GetTdByHash(context.Context, *GetTdByHashRequest) (*GetTdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTdByHash not implemented")
+}
+func (UnimplementedBorApiServer) GetTdByNumber(context.Context, *GetTdByNumberRequest) (*GetTdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTdByNumber not implemented")
+}
+func (UnimplementedBorApiServer) GetBlockInfoInBatch(context.Context, *GetBlockInfoInBatchRequest) (*GetBlockInfoInBatchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlockInfoInBatch not implemented")
 }
 func (UnimplementedBorApiServer) mustEmbedUnimplementedBorApiServer() {}
 
@@ -280,6 +336,78 @@ func _BorApi_GetStartBlockHeimdallSpanID_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BorApi_GetAuthor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAuthorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorApiServer).GetAuthor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bor.BorApi/GetAuthor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorApiServer).GetAuthor(ctx, req.(*GetAuthorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BorApi_GetTdByHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTdByHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorApiServer).GetTdByHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bor.BorApi/GetTdByHash",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorApiServer).GetTdByHash(ctx, req.(*GetTdByHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BorApi_GetTdByNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTdByNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorApiServer).GetTdByNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bor.BorApi/GetTdByNumber",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorApiServer).GetTdByNumber(ctx, req.(*GetTdByNumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BorApi_GetBlockInfoInBatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlockInfoInBatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorApiServer).GetBlockInfoInBatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bor.BorApi/GetBlockInfoInBatch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorApiServer).GetBlockInfoInBatch(ctx, req.(*GetBlockInfoInBatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BorApi_ServiceDesc is the grpc.ServiceDesc for BorApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -314,6 +442,22 @@ var BorApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStartBlockHeimdallSpanID",
 			Handler:    _BorApi_GetStartBlockHeimdallSpanID_Handler,
+		},
+		{
+			MethodName: "GetAuthor",
+			Handler:    _BorApi_GetAuthor_Handler,
+		},
+		{
+			MethodName: "GetTdByHash",
+			Handler:    _BorApi_GetTdByHash_Handler,
+		},
+		{
+			MethodName: "GetTdByNumber",
+			Handler:    _BorApi_GetTdByNumber_Handler,
+		},
+		{
+			MethodName: "GetBlockInfoInBatch",
+			Handler:    _BorApi_GetBlockInfoInBatch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
