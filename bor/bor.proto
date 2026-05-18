@@ -14,12 +14,38 @@ service BorApi {
   rpc TransactionReceipt(ReceiptRequest) returns (ReceiptResponse) {}
   rpc BorBlockReceipt(ReceiptRequest) returns (ReceiptResponse) {}
   rpc GetStartBlockHeimdallSpanID(GetStartBlockHeimdallSpanIDRequest) returns (GetStartBlockHeimdallSpanIDResponse) {}
+  rpc GetAuthor(GetAuthorRequest) returns (GetAuthorResponse) {}
+  rpc GetTdByHash(GetTdByHashRequest) returns (GetTdResponse) {}
+  rpc GetTdByNumber(GetTdByNumberRequest) returns (GetTdResponse) {}
+  rpc GetBlockInfoInBatch(GetBlockInfoInBatchRequest) returns (GetBlockInfoInBatchResponse) {}
 }
 
 message Header {
   uint64 number = 1;
   common.H256 parentHash = 2;
   uint64 time = 3;
+
+  // full raw header
+  common.H256 uncleHash = 4;
+  common.H160 coinbase = 5;
+  common.H256 stateRoot = 6;
+  common.H256 txRoot = 7;
+  common.H256 receiptRoot = 8;
+  bytes bloom = 9;
+  bytes difficulty = 10;
+  uint64 gasLimit = 11;
+  uint64 gasUsed = 12;
+  bytes extraData = 13;
+  common.H256 mixDigest = 14;
+  bytes nonce = 15;
+
+  // optional upgrade fields (zero, empty, nil means nil).
+  bytes baseFee = 16;
+  common.H256 withdrawalsHash = 17;
+  optional uint64 blobGasUsed = 18;
+  optional uint64 excessBlobGas = 19;
+  common.H256 parentBeaconBlockRoot = 20;
+  common.H256 requestsHash = 21;
 }
 
 // ---- ROOT HASH ----
@@ -126,4 +152,26 @@ message GetStartBlockHeimdallSpanIDRequest {
 message GetStartBlockHeimdallSpanIDResponse {
   uint64 StartBlock = 1;
   uint64 HeimdallSpanID = 2;
+}
+
+message GetAuthorRequest  { string number = 1; }
+message GetAuthorResponse { common.H160 author = 1; }
+
+message GetTdByHashRequest   { common.H256 hash = 1; }
+message GetTdByNumberRequest { string number = 1; }
+message GetTdResponse        { uint64 totalDifficulty = 1; }
+
+message GetBlockInfoInBatchRequest {
+  uint64 startBlockNumber = 1;
+  uint64 endBlockNumber   = 2;
+}
+
+message BlockInfo {
+  Header header = 1;
+  uint64 totalDifficulty = 2;
+  common.H160 author = 3;
+}
+
+message GetBlockInfoInBatchResponse {
+  repeated BlockInfo blocks = 1;
 }
